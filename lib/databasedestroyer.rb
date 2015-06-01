@@ -6,7 +6,7 @@ class DatabaseDestroyer < Sinatra::Base
   delete '/destroy' do 
 
     yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../../config/database.yml', __FILE__))
-    client = Mysql2::Client.new(yaml_data['defaults'])
+    client = Mysql2::Client.new(yaml_data['test'])
 
     client.query('SET FOREIGN_KEY_CHECKS = 0')
     client.query('TRUNCATE TABLE tasks')
