@@ -16,8 +16,12 @@ OptionParser.new do |opts|
     options[:port] = p
   end
 
-  opts.on('-fFILE', '--file=FILE', 'Specify a database YAML file') do |file|
+  opts.on('-fFILE', '--database-file=FILE', 'Specify a database YAML file') do |file|
     FileUtils.cp file, File.expand_path('../../config/database.yml', __FILE__)
+  end
+
+  opts.on('-sFILE', '--seed-file', 'Specify a seed file') do |file|
+    FileUtils.cp file, File.expand_path('../../config/seeds.json', __FILE__)
   end
 end.parse!
 
