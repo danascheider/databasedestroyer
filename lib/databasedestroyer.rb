@@ -3,8 +3,15 @@ require 'rack/cors'
 require 'mysql2'
 
 class DatabaseDestroyer < Sinatra::Base 
-  delete '/destroy' do 
 
+  use Rack::Cors do 
+    allow do 
+      origins 'null', /localhost(.*)/
+      resource '/*', methods: [:get, :put, :post, :delete, :options], headers: :any
+    end
+  end
+
+  delete '/destroy' do 
     yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../../config/database.yml', __FILE__))
     client = Mysql2::Client.new(yaml_data['test'])
 
