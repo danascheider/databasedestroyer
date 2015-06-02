@@ -46,11 +46,15 @@ class DatabaseDestroyer < Sinatra::Base
 
     seeds.each do |table, models|
       models.each do |model|
+        classes = model.values.map {|val| values.class }
         strings = model.values.map {|val| val.class === String ? "'#{val}'" : val}
         columns = '(' + model.keys.join(',') + ')'
         values  = '(' + strings.join(',') + ')'
 
         query = "INSERT INTO #{table} #{columns} VALUES #{values}"
+        puts "----- BEGIN CLASSES -----"
+        puts classes
+        puts "------ END CLASSES ------"
         puts "----- BEGIN QUERY -----"
         puts query
         puts "------ END QUERY ------"
