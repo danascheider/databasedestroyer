@@ -48,13 +48,7 @@ class DatabaseDestroyer < Sinatra::Base
       models.each do |model|
         strings = model.values.map {|val| val.is_a?(String) ? "'#{val}'" : val}
         columns = '(' + model.keys.join(',') + ')'
-        values  = '(' + strings.join(',') + ')'
-
-        query = "INSERT INTO #{table} #{columns} VALUES #{values}"
-        puts "----- BEGIN QUERY -----"
-        puts query
-        puts "------ END QUERY ------"
-
+        values  = '(' + strings.join(',') + ')'        
         client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
       end
     end
