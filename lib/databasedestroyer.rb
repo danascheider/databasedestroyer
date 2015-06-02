@@ -4,6 +4,7 @@ require 'json'
 require 'mysql2'
 
 require_relative '../config/database_task_helper'
+require_relative './models'
 
 class DatabaseDestroyer < Sinatra::Base 
 
