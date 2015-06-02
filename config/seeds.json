@@ -9,37 +9,51 @@
     }
   ],
 
+  "task_lists": [
+    {"user_id":1}
+  ],
+
   "tasks": [
     {
       "title":"Task 1",
       "status":"New",
       "priority":"Low",
-      "position":1
+      "position":1,
+      "task_list_id":1,
+      "owner_id":1
     },
     {
       "title":"Task 2",
       "status":"New",
       "priority":"Normal",
-      "position":2
+      "position":2,
+      "task_list_id":1,
+      "owner_id":1
     },
     { 
       "title":"Task 3",
       "status":"Blocking",
       "priority":"High",
-      "position":3
+      "position":3,
+      "task_list_id":1,
+      "owner_id":1
     },
     {
       "title":"Task 4",
       "status":"In Progress",
       "priority":"High",
       "backlog":true,
-      "position":4
+      "position":4,
+      "task_list_id":1,
+      "owner_id":1
     },
     {
       "title":"Task 5",
       "status":"Complete",
       "priority":"Normal",
-      "position":5
+      "position":5,
+      "task_list_id":1,
+      "owner_id":1
     }
   ]
 }
