@@ -46,12 +46,13 @@ class DatabaseDestroyer < Sinatra::Base
 
     seeds.each do |table, models|
       models.each do |model|
-        puts '----- BEGIN MODEL -----'
-        puts model
-        puts '------ END MODEL ------'
-
         columns = '(' + model.keys.join(',') + ')'
         values  = '(' + model.values.join(',') + ')'
+
+        query = "INSERT INTO #{table} #{columns} VALUES #{values}"
+        puts "----- BEGIN QUERY -----"
+        puts query
+        puts "------ END QUERY ------"
 
         client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
       end
