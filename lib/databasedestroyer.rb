@@ -24,7 +24,7 @@ class DatabaseDestroyer < Sinatra::Base
     client.query('SET FOREIGN_KEY_CHECKS = 0')
 
     client.query('SHOW TABLES', as: :array).each do |table|
-      client.query("TRUNCATE TABLE #{table}")
+      client.query("TRUNCATE TABLE #{table[0]}")
     end
 
     client.query('SET FOREIGN_KEY_CHECKS = 1')
