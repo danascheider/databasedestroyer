@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require 'rack/cors'
+require 'json'
 require 'mysql2'
 
 require_relative '../config/database_task_helper'
@@ -17,6 +18,8 @@ class DatabaseDestroyer < Sinatra::Base
     yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../config/database.yml', __FILE__))
     client = Mysql2::Client.new(yaml_data['test'])
 
+    puts "YAML DATA: #{yaml_data}"
+
     client.query('SET FOREIGN_KEY_CHECKS = 0')
     client.query('TRUNCATE TABLE tasks')
     client.query('TRUNCATE TABLE task_lists')
@@ -28,7 +31,7 @@ class DatabaseDestroyer < Sinatra::Base
     client.query('TRUNCATE TABLE listings')
     client.query('SET FOREIGN_KEY_CHECKS = 1')
 
-    seeds = JSON.parse(File.read(File.expand_path('../../../db/seeds.json', __FILE__)), symbolize_names: true)
+    seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)), symbolize_names: true)
 
     user_attributes = seeds[:user]
     tasks = seeds[:tasks]
