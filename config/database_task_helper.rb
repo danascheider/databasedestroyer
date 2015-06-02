@@ -6,10 +6,6 @@ class DatabaseDestroyer < Sinatra::Base
       yaml = (File.open(file, 'r+') {|file| YAML.load_file(file) }).to_h
       yaml['test'] = yaml['test'].to_h
 
-      yaml['test'].keys.each do |key|
-        yaml['test'][(key.to_sym rescue key) || key] = yaml['test'].delete(key)
-      end
-
       yaml
     end
 
@@ -20,11 +16,11 @@ class DatabaseDestroyer < Sinatra::Base
 
     def self.get_string(hash, env)
       string = ''
-      string << "#{hash[:adapter]}://"
-      string << "#{hash[:username]}:"
-      string << "#{hash[:password]}@"
-      string << "#{hash[:host]}:"
-      string << "#{hash[:port]}/"
+      string << "#{hash['adapter']}://"
+      string << "#{hash['username']}:"
+      string << "#{hash['password']}@"
+      string << "#{hash['host']}:"
+      string << "#{hash['port']}/"
       string << env
 
       string
