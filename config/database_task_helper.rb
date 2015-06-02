@@ -19,7 +19,15 @@ class DatabaseDestroyer < Sinatra::Base
     #         # => "mysql2://root:rootpassword@localhost:3306/test"
 
     def self.get_string(hash, env)
-      "#{hash[:adapter]}://#{hash[:username]}:#{hash[:password]}@#{hash[:host]}:#{hash[:port]}/#{env}"
+      string = ''
+      string << "#{hash[:adapter]}://"
+      string << "#{hash[:username]}:"
+      string << "#{hash[:password]}@"
+      string << "#{hash[:host]}:"
+      string << "#{hash[:port]}/"
+      string << env
+
+      string
     end
   end
 end
