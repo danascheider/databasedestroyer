@@ -46,8 +46,7 @@ class DatabaseDestroyer < Sinatra::Base
 
     seeds.each do |table, models|
       models.each do |model|
-        classes = model.values.map {|val| val.class }
-        strings = model.values.map {|val| val.class === String ? "'#{val}'" : val}
+        strings = model.values.map {|val| val.is_a?(String) ? "'#{val}'" : val}
         columns = '(' + model.keys.join(',') + ')'
         values  = '(' + strings.join(',') + ')'
 
