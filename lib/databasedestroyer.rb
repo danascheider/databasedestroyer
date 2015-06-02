@@ -7,6 +7,11 @@ require 'mysql2'
 require_relative '../config/database_task_helper'
 require_relative './models'
 
+DB_YAML_FILE = ENV['DB_YAML_FILE'] || File.expand_path('../config/database.yml', __FILE__)
+DB_CONFIG = DatabaseTaskHelper.get_string(DB_YAML_FILE)
+
+DB = Sequel.connect("#{DB_CONFIG['adapter']}://#{DB_CONFIG['user']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}")
+
 class DatabaseDestroyer < Sinatra::Base 
 
   use Rack::Cors do 
