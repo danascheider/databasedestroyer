@@ -29,17 +29,28 @@ class DatabaseDestroyer < Sinatra::Base
 
     client.query('SET FOREIGN_KEY_CHECKS = 1')
 
-    seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)), symbolize_names: true)
+    # The seeds.json file is set up like so:
+    #     {
+    #       <table>: [
+    #         { ... },
+    #         { ... },
+    #         { ... }
+    #       ],
+    #       <table>: [
+    #         { ... },
+    #         { ... }
+    #       ]
+    #     }
 
-    user_attributes = seeds[:user]
-    tasks = seeds[:tasks]
+    seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__))
 
-    user = User.create(user_attributes)
+    seeds.each do |table|
+      table.each do |model|
+        columns = '(' + model.keys.join(',') + ')'
+        values  = '(' + model.values.join(',') + ')'
 
-    tasks.each do |obj|
-      obj[:task_list_id] = user.default_task_list.id
-      obj[:owner_id] = user.id
-      Task.create(obj)
+        client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
+      end
     end
 
     [204]
