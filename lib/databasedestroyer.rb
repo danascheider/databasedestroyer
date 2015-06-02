@@ -45,11 +45,13 @@ class DatabaseDestroyer < Sinatra::Base
     seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
 
     seeds.each do |table|
-      table.each do |model|
-        columns = '(' + model.keys.join(',') + ')'
-        values  = '(' + model.values.join(',') + ')'
+      table.each do |arr|
+        arr.each do |model|
+          columns = '(' + model.keys.join(',') + ')'
+          values  = '(' + model.values.join(',') + ')'
 
-        client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
+          client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
+        end
       end
     end
 
