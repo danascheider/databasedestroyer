@@ -47,7 +47,7 @@ class DatabaseDestroyer < Sinatra::Base
     seeds.each do |table|
       table.each do |model|
         puts '----- BEGIN MODEL -----'
-        puts table
+        puts model
         puts '------ END MODEL ------'
 
         columns = '(' + model.keys.join(',') + ')'
