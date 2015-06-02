@@ -4,10 +4,10 @@ class DatabaseDestroyer < Sinatra::Base
   module DatabaseTaskHelper
     def self.get_yaml(file)
       yaml = (File.open(file, 'r+') {|file| YAML.load_file(file) }).to_h
-      yaml['defaults'] = yaml['defaults'].to_h
+      yaml['test'] = yaml['test'].to_h
 
-      yaml['defaults'].keys.each do |key|
-        yaml['defaults'][(key.to_sym rescue key) || key] = yaml['defaults'].delete(key)
+      yaml['test'].keys.each do |key|
+        yaml['test'][(key.to_sym rescue key) || key] = yaml['test'].delete(key)
       end
 
       yaml
