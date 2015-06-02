@@ -51,9 +51,6 @@ class DatabaseDestroyer < Sinatra::Base
         values  = '(' + strings.join(',') + ')'
 
         query = "INSERT INTO #{table} #{columns} VALUES #{values}"
-        puts "----- BEGIN CLASSES -----"
-        puts classes
-        puts "------ END CLASSES ------"
         puts "----- BEGIN QUERY -----"
         puts query
         puts "------ END QUERY ------"
