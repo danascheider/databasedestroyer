@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'rack/cors'
 require 'json'
+require 'sequel'
 require 'mysql2'
 
 require_relative '../config/database_task_helper'
