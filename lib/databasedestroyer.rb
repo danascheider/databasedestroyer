@@ -44,12 +44,8 @@ class DatabaseDestroyer < Sinatra::Base
 
     seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
 
-    seeds.each do |table|
-      table.each do |name, model|
-        puts '----- BEGIN NAME -----'
-        puts name
-        puts '------ END NAME ------'
-
+    seeds.each do |table, models|
+      models.each do |model|
         puts '----- BEGIN MODEL -----'
         puts model
         puts '------ END MODEL ------'
