@@ -46,8 +46,9 @@ class DatabaseDestroyer < Sinatra::Base
 
     seeds.each do |table, models|
       models.each do |model|
+        strings = model.values.map {|val| "'#{val}'"}
         columns = '(' + model.keys.join(',') + ')'
-        values  = '(' + model.values.join(',') + ')'
+        values  = '(' + strings.join(',') + ')'
 
         query = "INSERT INTO #{table} #{columns} VALUES #{values}"
         puts "----- BEGIN QUERY -----"
