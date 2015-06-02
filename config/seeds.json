@@ -1,11 +1,13 @@
 {
-  "user": {
-    "username": "testuser",
-    "password": "testuser",
-    "email": "testuser@example.com",
-    "first_name": "Test",
-    "last_name": "User"
-  },
+  "users": [
+    {
+      "username": "testuser",
+      "password": "testuser",
+      "email": "testuser@example.com",
+      "first_name": "Test",
+      "last_name": "User"
+    }
+  ],
 
   "tasks": [
     {
