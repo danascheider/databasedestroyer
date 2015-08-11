@@ -8,11 +8,12 @@ require_relative '../config/database_task_helper'
 DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(ENV['DB_YAML_FILE'] || File.expand_path('../config/database.yml', __FILE__), 'test')
 
 class DatabaseDestroyer < Sinatra::Base 
-  set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['user']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
+  set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
+  enable :logging
 
   use Rack::Cors do 
     allow do 
-      origins 'null', /localhost(.*)/
+      origins 'null', /localhost(.*)/, '24.21.101.216', '24.20.222.82'
       resource '/*', methods: [:get, :put, :post, :delete, :options], headers: :any
     end
   end
