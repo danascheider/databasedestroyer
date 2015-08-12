@@ -4,6 +4,7 @@ require 'json'
 require 'mysql2'
 
 require_relative '../config/database_task_helper'
+require_relative './helpers/database_helper'
 
 DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(ENV['DB_YAML_FILE'] || File.expand_path('../config/database.yml', __FILE__), 'test')
 
@@ -11,9 +12,11 @@ class DatabaseDestroyer < Sinatra::Base
   set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
   enable :logging
 
+  helpers Sinatra::DatabaseHelper
+
   use Rack::Cors do 
     allow do 
-      origins 'null', /localhost(.*)/, '24.21.101.216', '24.20.222.82'
+      origins 'null', /localhost(.*)/, '24.21.101.216', /24.20.222.82(.*)/
       resource '/*', methods: [:get, :put, :post, :delete, :options], headers: :any
     end
   end
@@ -22,13 +25,7 @@ class DatabaseDestroyer < Sinatra::Base
     yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../config/database.yml', __FILE__))
     client = Mysql2::Client.new(yaml_data['test'])
 
-    client.query('SET FOREIGN_KEY_CHECKS = 0')
-
-    client.query('SHOW TABLES', as: :array).each do |table|
-      client.query("TRUNCATE TABLE #{table[0]}")
-    end
-
-    client.query('SET FOREIGN_KEY_CHECKS = 1')
+    nuke! client
 
     # The seeds.json file is set up like so:
     #     {
@@ -43,16 +40,7 @@ class DatabaseDestroyer < Sinatra::Base
     #       ]
     #     }
 
-    seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
-
-    seeds.each do |table, models|
-      models.each do |model|
-        strings = model.values.map {|val| val.is_a?(String) ? "'#{val}'" : val}
-        columns = '(' + model.keys.join(',') + ')'
-        values  = '(' + strings.join(',') + ')'        
-        client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
-      end
-    end
+    seed! client, JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
 
     [204]
   end
