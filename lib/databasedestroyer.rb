@@ -6,7 +6,8 @@ require 'mysql2'
 require_relative '../config/database_task_helper'
 require_relative './helpers/database_helper'
 
-DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(ENV['DB_YAML_FILE'] || File.expand_path('../config/database.yml', __FILE__), 'test')
+STDOUT.puts "Database File: " + ENV['DB_YAML_FILE']
+DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(DatabaseDestroyer::DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE']), 'test') 
 
 class DatabaseDestroyer < Sinatra::Base 
   set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"

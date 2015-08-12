@@ -7,7 +7,7 @@ require 'fileutils'
 # By default, the port is 1025. It gets overridden by the option parser if the
 # user specifies a port using the -p or --port option.
 
-options = {port: 1025}
+options = {port: 1025, database_file: File.expand_path('dbdestroyer.yml', FileUtils.pwd)}
 
 OptionParser.new do |opts|
   opts.banner = "Usage: databasedestroyer [options]"
@@ -17,13 +17,15 @@ OptionParser.new do |opts|
   end
 
   opts.on('-fFILE', '--database-file=FILE', 'Specify a database YAML file') do |file|
-    FileUtils.cp file, File.expand_path('../../config/database.yml', __FILE__)
+    options[:database_file] = file
   end
 
   opts.on('-sFILE', '--seed-file', 'Specify a seed file') do |file|
     FileUtils.cp file, File.expand_path('../../config/seeds.json', __FILE__)
   end
 end.parse!
+
+ENV['DB_YAML_FILE'] = options[:database_file]
 
 begin
   path = File.expand_path('../../config.ru', __FILE__)
