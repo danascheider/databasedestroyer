@@ -17,13 +17,23 @@ class DatabaseDestroyer < Sinatra::Base
 
   use Rack::Cors do 
     allow do 
-      origins 'null', /localhost(.*)/, '24.21.101.216', /24.20.222.82(.*)/
+      origins '*'
       resource '/*', methods: [:get, :put, :post, :delete, :options], headers: :any
     end
   end
 
+  post '/destroy' do 
+    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])
+    client = Mysql2::Client.new(yaml_data['test'])
+
+    nuke! client
+    seed! client, JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
+
+    [204]
+  end
+
   delete '/destroy' do 
-    yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../config/database.yml', __FILE__))
+    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])
     client = Mysql2::Client.new(yaml_data['test'])
 
     nuke! client
