@@ -1,9 +1,0 @@
-test: &test
-  host: 127.0.0.1
-  user: dbdestroyer 
-  password: JAp2etU-eg
-  database: test
-  adapter: mysql2
-  port: 3306
-  pool: 5
-  timeout: 5000

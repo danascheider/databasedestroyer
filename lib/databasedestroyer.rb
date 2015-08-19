@@ -4,30 +4,39 @@ require 'json'
 require 'mysql2'
 
 require_relative '../config/database_task_helper'
+require_relative './helpers/database_helper'
 
-DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(ENV['DB_YAML_FILE'] || File.expand_path('../config/database.yml', __FILE__), 'test')
+STDOUT.puts "Database File: " + ENV['DB_YAML_FILE']
+DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(DatabaseDestroyer::DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE']), 'test') 
 
 class DatabaseDestroyer < Sinatra::Base 
-  set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['user']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
+  set :database, "#{DB_CONFIG['adapter']}://#{DB_CONFIG['username']}:#{DB_CONFIG['password']}@#{DB_CONFIG['host']}:#{DB_CONFIG['port']}/#{DB_CONFIG['database']}"
+  enable :logging
+
+  helpers Sinatra::DatabaseHelper
 
   use Rack::Cors do 
     allow do 
-      origins 'null', /localhost(.*)/
+      origins '*'
       resource '/*', methods: [:get, :put, :post, :delete, :options], headers: :any
     end
   end
 
-  delete '/destroy' do 
-    yaml_data = DatabaseTaskHelper.get_yaml(File.expand_path('../../config/database.yml', __FILE__))
+  post '/destroy' do 
+    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])
     client = Mysql2::Client.new(yaml_data['test'])
 
-    client.query('SET FOREIGN_KEY_CHECKS = 0')
+    nuke! client
+    seed! client, JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
 
-    client.query('SHOW TABLES', as: :array).each do |table|
-      client.query("TRUNCATE TABLE #{table[0]}")
-    end
+    [204]
+  end
 
-    client.query('SET FOREIGN_KEY_CHECKS = 1')
+  delete '/destroy' do 
+    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])
+    client = Mysql2::Client.new(yaml_data['test'])
+
+    nuke! client
 
     # The seeds.json file is set up like so:
     #     {
@@ -42,16 +51,7 @@ class DatabaseDestroyer < Sinatra::Base
     #       ]
     #     }
 
-    seeds = JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
-
-    seeds.each do |table, models|
-      models.each do |model|
-        strings = model.values.map {|val| val.is_a?(String) ? "'#{val}'" : val}
-        columns = '(' + model.keys.join(',') + ')'
-        values  = '(' + strings.join(',') + ')'        
-        client.query("INSERT INTO #{table} #{columns} VALUES #{values}")
-      end
-    end
+    seed! client, JSON.parse(File.read(File.expand_path('../../config/seeds.json', __FILE__)))
 
     [204]
   end

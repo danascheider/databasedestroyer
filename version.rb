@@ -1,7 +1,7 @@
 module DatabaseDestroyerPackage
   module Version
-    MAJOR = '0'
-    MINOR = '2'
+    MAJOR = '1'
+    MINOR = '1'
     PATCH = '0'
     STRING = [MAJOR, MINOR, PATCH].join('.')
   end
