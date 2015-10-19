@@ -6,7 +6,6 @@ require 'mysql2'
 require_relative '../config/database_task_helper'
 require_relative './helpers/database_helper'
 
-STDOUT.puts "Database File: " + ENV['DB_YAML_FILE']
 DB_CONFIG = DatabaseDestroyer::DatabaseTaskHelper.get_string(DatabaseDestroyer::DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE']), 'test') 
 
 class DatabaseDestroyer < Sinatra::Base 
@@ -33,8 +32,8 @@ class DatabaseDestroyer < Sinatra::Base
   end
 
   delete '/destroy' do 
-    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])
-    client = Mysql2::Client.new(yaml_data['test'])
+    yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])['test']
+    client = Mysql2::Client.new(yaml_data)
 
     nuke! client
 
