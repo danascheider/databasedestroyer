@@ -3,7 +3,7 @@ require 'yaml'
 class DatabaseDestroyer < Sinatra::Base
   module DatabaseTaskHelper
     def self.get_yaml(file)
-      yaml = (File.open(file, 'r+') {|file| YAML.load_file(file) }).to_h
+      yaml = YAML.load_file(File.read(File.open(file, 'r+'))).to_h
       yaml['test'] = yaml['test'].to_h
 
       yaml
