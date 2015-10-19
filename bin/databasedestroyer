@@ -26,6 +26,7 @@ OptionParser.new do |opts|
 end.parse!
 
 ENV['DB_YAML_FILE'] = options[:database_file]
+ENV['SEED_FILE'] = options[:seed_file]
 
 begin
   path = File.expand_path('../../config.ru', __FILE__)
