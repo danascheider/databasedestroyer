@@ -7,7 +7,7 @@ require 'fileutils'
 # By default, the port is 1025. It gets overridden by the option parser if the
 # user specifies a port using the -p or --port option.
 
-options = {port: 1025, database_file: File.expand_path('config/dbdestroyer.yml', FileUtils.pwd)}
+options = {port: 1025, database_file: File.expand_path('dbdestroyer.yml', FileUtils.pwd)}
 
 OptionParser.new do |opts|
   opts.banner = "Usage: databasedestroyer [options]"

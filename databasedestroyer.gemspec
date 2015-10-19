@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.name                      = 'databasedestroyer'
   s.version                   = DatabaseDestroyerPackage::Version::STRING
-  s.date                      = '2015-10-19'
+  s.date                      = '2015-08-19'
   s.summary                   = 'DatabaseDestroyer, destroyer of [test] databases'
   s.authors                   = ['Dana Scheider']
 
