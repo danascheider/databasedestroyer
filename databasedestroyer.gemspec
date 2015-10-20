@@ -28,6 +28,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec', '~> 3.3'
   s.add_development_dependency 'cucumber', '~> 2.1'
   s.add_development_dependency 'rack-test', '~> 0.6', '>= 0.6.3'
+  s.add_development_dependency 'cucumber-sinatra', '~> 0.5'
 
   s.has_rdoc         = true
   s.homepage         = 'https://github.com/danascheider/databasedestroyer'
