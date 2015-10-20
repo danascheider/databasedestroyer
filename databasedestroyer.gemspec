@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
 
   s.name                      = 'databasedestroyer'
   s.version                   = DatabaseDestroyerPackage::Version::STRING
-  s.date                      = '2015-10-19'
+  s.date                      = '2015-08-20'
   s.summary                   = 'DatabaseDestroyer, destroyer of [test] databases'
   s.authors                   = ['Dana Scheider']
 
@@ -25,6 +25,11 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency     'thin', '~> 1.6.3'
 
   s.add_development_dependency 'bundler', '~> 1.7'
+  s.add_development_dependency 'rspec', '~> 3.3'
+  s.add_development_dependency 'cucumber', '~> 2.1'
+  s.add_development_dependency 'rack-test', '~> 0.6', '>= 0.6.3'
+  s.add_development_dependency 'cucumber-sinatra', '~> 0.5'
+  s.add_development_dependency 'reactive_extensions', '~> 0.5', '>= 0.5.2'
 
   s.has_rdoc         = true
   s.homepage         = 'https://github.com/danascheider/databasedestroyer'
