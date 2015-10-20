@@ -180,26 +180,26 @@
       "name":"All Saints Parish",
       "address_1":"3847 NE Glisan St.",
       "city":"Portland",
-      "region":"OR",
+      "state":"OR",
       "postal_code":97232,
       "phone_1":"(503) 232-4304",
       "fax":"(503) 238-8847",
-      "email":"parish@allsaintsportland.org",
+      "email_1":"parish@allsaintsportland.org",
       "website":"http://www.allsaintsportland.org"
     },
     {
       "name":"Our Lady of Lavang",
       "address_1":"5404 NE Alameda Dr.",
-      "city":"Portland","region":"OR",
+      "city":"Portland","state":"OR",
       "postal_code":97213,
       "phone_1":"(503) 249-5892",
       "fax":"(503) 249-1776"
     },
     {
-      "name":"St. Mary's Cathedral of the Immaculate Conception",
+      "name":"St. Mary''s Cathedral of the Immaculate Conception",
       "address_1":"1716 NW Davis St.",
       "city":"Portland",
-      "region":"ME",
+      "state":"ME",
       "postal_code":97209,
       "phone_1":"(503) 228-4397",
       "website":"http://maryscathedral.com"
@@ -209,7 +209,7 @@
       "address_1":"7390 SW Grabhorn Rd.",
       "address_2": "c/o Mary Smith", 
       "city":"Aloha",
-      "region":"OR",
+      "state":"OR",
       "postal_code":97007,
       "phone_1":"(503) 591-5302"
     }
