@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    databasedestroyer (2.1.0)
+    databasedestroyer (1.1.1)
       mysql2 (~> 0.3, >= 0.3.16)
       rack-cors (~> 0.4)
       sequel (~> 4.23)
@@ -32,6 +32,8 @@ GEM
     rack-cors (0.4.0)
     rack-protection (1.5.3)
       rack
+    rack-test (0.6.3)
+      rack (>= 1.0)
     rspec (3.3.0)
       rspec-core (~> 3.3.0)
       rspec-expectations (~> 3.3.0)
@@ -63,6 +65,7 @@ DEPENDENCIES
   bundler (~> 1.7)
   cucumber (~> 2.1)
   databasedestroyer!
+  rack-test (~> 0.6, >= 0.6.3)
   rspec (~> 3.3)
 
 BUNDLED WITH
