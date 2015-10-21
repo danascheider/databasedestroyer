@@ -33,6 +33,7 @@ class DatabaseDestroyer < Sinatra::Base
 
   delete '/destroy' do 
     yaml_data = DatabaseTaskHelper.get_yaml(ENV['DB_YAML_FILE'])['test']
+    yaml_data['database'] = 'test'
     client = Mysql2::Client.new(yaml_data)
 
     nuke! client
